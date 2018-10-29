@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>pendo-magic testing</title>
+</head>
+
+<body>
+    <header>
+        <h1>bar.html</h1>
+    </header>
+    <main>
+        <h3>things it does</h3>
+        <p>
+            goes to <a href="/">index</a>
+        </p>
+    </main>
+    <script>
+        const config=(window.location.search||'')
+            .slice(1)
+            .split('&')
+            .map(kv => kv.split('='))
+            .filter(([key,value]) => !!key&&!!value)
+            .reduce((memo,[key,value]) => ({...memo,[key]: value}),{
+                user: 'test@brianruddy.com',
+                account: 'brianruddy',
+                app: 'legacyApp'
+            });
+        var apiKeys={
+            legacyApp: '1cb5ffa8-9cb2-4245-615c-2ceda25b5e21',
+            fooApp: '0e9a0b51-6c3d-4827-41a5-9e3fd8d874fb',
+            noTrainingDisplayNameApp: 'a7c6d7ac-5cb1-4585-65c2-61f826ed5430'
+        };
+
+        (function(apiKey) {
+            (function(p,e,n,d,o) {
+                var v,w,x,y,z; o=p[d]=p[d]||{}; o._q=[];
+                v=['initialize','identify','updateOptions','pageLoad']; for(w=0,x=v.length;w<x;++w)(function(m) {
+                    o[m]=o[m]||function() {o._q[m===v[0]? 'unshift':'push']([m].concat([].slice.call(arguments,0)));};
+                })(v[w]);
+                y=e.createElement(n); y.async=!0; y.src='https://pendo-atlas-static.storage.googleapis.com/agent/static/'+apiKey+'/pendo.js';
+                z=e.getElementsByTagName(n)[0]; z.parentNode.insertBefore(y,z);
+            })(window,document,'script','pendo');
+
+            pendo.initialize({
+                apiKey: apiKey,
+                visitor: {
+                    id: config.user
+                },
+                account: {
+                    id: config.account
+                }
+            });
+        })(apiKeys[config.app]);
+    </script>
+</body>
+
+</html>
