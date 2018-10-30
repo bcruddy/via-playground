@@ -22,15 +22,17 @@
             .map(kv => kv.split('='))
             .filter(([key,value]) => !!key&&!!value)
             .reduce((memo,[key,value]) => ({...memo,[key]: value}),{
-                user: 'test@brianruddy.com',
-                account: 'brianruddy',
-                app: 'legacyApp'
+                user: 'biastohack-demo',
+                account: 'demoAcct1',
+                app: 'prodDemo'
             });
         var apiKeys={
             legacyApp: '1cb5ffa8-9cb2-4245-615c-2ceda25b5e21',
             fooApp: '0e9a0b51-6c3d-4827-41a5-9e3fd8d874fb',
-            noTrainingDisplayNameApp: 'a7c6d7ac-5cb1-4585-65c2-61f826ed5430'
+            noTrainingDisplayNameApp: 'a7c6d7ac-5cb1-4585-65c2-61f826ed5430',
+            prodDemo: '12122530-54dd-4e5f-6b50-949ed16f193c' // lohner test sub
         };
+        var host=config.app==='prodDemo'? 'cdn.pendo.io':'pendo-atlas-static.storage.googleapis.com';
 
         (function(apiKey) {
             (function(p,e,n,d,o) {
@@ -38,7 +40,7 @@
                 v=['initialize','identify','updateOptions','pageLoad']; for(w=0,x=v.length;w<x;++w)(function(m) {
                     o[m]=o[m]||function() {o._q[m===v[0]? 'unshift':'push']([m].concat([].slice.call(arguments,0)));};
                 })(v[w]);
-                y=e.createElement(n); y.async=!0; y.src='https://pendo-atlas-static.storage.googleapis.com/agent/static/'+apiKey+'/pendo.js';
+                y=e.createElement(n); y.async=!0; y.src='https://'+host+'/agent/static/'+apiKey+'/pendo.js';
                 z=e.getElementsByTagName(n)[0]; z.parentNode.insertBefore(y,z);
             })(window,document,'script','pendo');
 
