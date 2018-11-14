@@ -4,7 +4,7 @@
         <title>via testing</title>
     </head>
     <body>
-        <h1>Why Do They? Heat-Seeking Kitties</h1>
+        <h1 id="page-title">Why Do They? Heat-Seeking Kitties</h1>
 
         <p>
             <a href="/foo.html">Foo</a> | <a href="/bar.html">Bar</a>
@@ -49,6 +49,9 @@
                 Crazy About Catnip http://www.iams.com/pet-health/cat-article/crazy-about-catnip
             </li>
         </ul>
+        <section id="iframe-wrapper">
+            <iframe src="/foo.html"></iframe>
+        </section>
     <script>
         const config=(window.location.search||'')
             .slice(1)
@@ -58,7 +61,7 @@
             .reduce((memo,[key,value]) => ({...memo,[key]: value}),{
                 user: 'biastohack-demo',
                 account: 'demoAcct1',
-                app: 'prodDemo'
+                app: 'legacyApp'
             });
         var apiKeys={
             legacyApp: '1cb5ffa8-9cb2-4245-615c-2ceda25b5e21',
