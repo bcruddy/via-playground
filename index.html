@@ -59,8 +59,8 @@
             .map(kv => kv.split('='))
             .filter(([key,value]) => !!key&&!!value)
             .reduce((memo,[key,value]) => ({...memo,[key]: value}),{
-                user: 'biastohack-demo',
-                account: 'demoAcct1',
+                user: 'default@biastohack.com',
+                account: 'Pendo',
                 app: 'legacyApp'
             });
         var apiKeys={
