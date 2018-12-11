@@ -70,6 +70,11 @@
             prodDemo: '12122530-54dd-4e5f-6b50-949ed16f193c' // lohner test sub
         };
         const host = config.app === 'prodDemo' ? 'cdn.pendo.io' : 'pendo-atlas-static.storage.googleapis.com';
+
+        if (config.hasOwnProperty('drop')) {
+            window.location = window.location.href.replace(/pendo[-]\w+=[\S]+$/, '').replace(/\?drop/, '');
+        }
+
         console.log({
             config: {
                 ...config,
