@@ -6,10 +6,6 @@
     <body>
         <h1 id="page-title">Why Do They? Heat-Seeking Kitties</h1>
 
-        <p>
-            <a href="/foo.html">Foo</a> | <a href="/bar.html">Bar</a>
-        </p>
-
         <p>Your cat has good reasons for craving his fun in the sun.</p>
 
         <p>Like tiny kittens seek out their mamas, cats find warm spots every chance they get. "This is the first sensory indulgence
@@ -57,13 +53,16 @@
             .slice(1)
             .split('&')
             .map(kv => kv.split('='))
-            .filter(([key, value]) => !!key&&!!value)
+            .filter(([key, value]) => key === 'drop' || !!key && !!value)
             .reduce((memo, [key, value]) => ({ ...memo, [key]: value }),{
                 user: 'ruddy@pendo.io',
                 account: 'Pendo',
                 app: 'legacyApp'
             });
-        const apiKeys={
+
+        redirectOnDrop(config);
+
+        const apiKeys = {
             legacyApp: '1cb5ffa8-9cb2-4245-615c-2ceda25b5e21',
             fooApp: '0e9a0b51-6c3d-4827-41a5-9e3fd8d874fb',
             noTrainingDisplayNameApp: 'a7c6d7ac-5cb1-4585-65c2-61f826ed5430',
@@ -71,16 +70,10 @@
         };
         const host = config.app === 'prodDemo' ? 'cdn.pendo.io' : 'pendo-atlas-static.storage.googleapis.com';
 
-        if (config.hasOwnProperty('drop')) {
-            window.location = window.location.href.replace(/pendo[-]\w+=[\S]+$/, '').replace(/\?drop/, '');
-        }
-
         console.log({
-            config: {
-                ...config,
-                host,
-                apiKey: apiKeys[config.app]
-            }
+            ...config,
+            host,
+            apiKey: apiKeys[config.app]
         });
 
         (function(apiKey) {
@@ -103,6 +96,43 @@
                 }
             });
         })(apiKeys[config.app]);
+
+        function redirectOnDrop (config) {
+            if(!config.hasOwnProperty('drop')) {
+                return;
+            }
+
+            const params = JSON.parse(JSON.stringify(config));
+            delete params['pendo-designer'];
+            delete params.drop;
+
+            if(params.user === 'ruddy@pendo.io') {
+                delete params.user;
+            }
+
+            if(params.account === 'Pendo') {
+                delete params.account;
+            }
+
+            if(params.app === 'legacyApp') {
+                delete params.app;
+            }
+
+            const query = Object.entries(params)
+                .reduce((qs, [key, value]) => {
+                    if(!qs) {
+                        qs = '?';
+                    } else {
+                        qs += '&';
+                    }
+
+                    qs += [key,value].join('=');
+
+                    return qs;
+                }, '');
+
+            window.location = window.location.origin + query;
+        }
     </script>
     </body>
 </html>
