@@ -94,6 +94,10 @@
         };
         const host = config.app === 'prodDemo' ? 'cdn.pendo.io' : 'pendo-atlas-static.storage.googleapis.com';
 
+        if (config['pendo-designer']) {
+            config.token = JSON.parse(atob(decodeURIComponent(config['pendo-designer'])));
+        }
+
         console.log({
             ...config,
             host,
