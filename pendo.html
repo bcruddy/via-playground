@@ -74,12 +74,12 @@
             <iframe src="/foo.html"></iframe>
         </section> -->
     <script>
-        const config=(window.location.search||'')
+        const config = (window.location.search || '')
             .slice(1)
             .split('&')
             .map(kv => kv.split('='))
-            .filter(([key,value]) => key === 'drop'|| !!key && !!value)
-            .reduce((memo, [key, value]) => ({...memo,[key]: value}),{
+            .filter(([key, value]) => key === 'drop' || !!key && !!value)
+            .reduce((memo, [key, value]) => ({...memo, [key]: value}),{
                 user: 'ruddy+pendo@pendo.io',
                 account: 'bcr',
                 app: 'legacyApp'
@@ -127,38 +127,39 @@
         })(apiKeys[config.app]);
 
         function redirectOnDrop(config) {
-            if(!config.hasOwnProperty('drop')) {
+            if (!config.hasOwnProperty('drop')) {
                 return;
             }
 
-            const params=JSON.parse(JSON.stringify(config));
+            const params = JSON.parse(JSON.stringify(config));
+
             delete params['pendo-designer'];
             delete params.drop;
 
-            if(params.user === 'ruddy+pendo@pendo.io') {
+            if (params.user === 'ruddy+pendo@pendo.io') {
                 delete params.user;
             }
 
-            if(params.account === 'bcr') {
+            if (params.account === 'bcr') {
                 delete params.account;
             }
 
-            if(params.app === 'legacyApp') {
+            if (params.app === 'legacyApp') {
                 delete params.app;
             }
 
             const query = Object.entries(params)
-                .reduce((qs,[key,value]) => {
+                .reduce((qs, [key, value]) => {
                     if(!qs) {
-                        qs='?';
+                        qs = '?';
                     } else {
-                        qs+='&';
+                        qs += '&';
                     }
 
-                    qs+=[key,value].join('=');
+                    qs += [key, value].join('=');
 
                     return qs;
-                },'');
+                }, '');
 
             window.location = window.location.origin + query;
         }
