@@ -82,19 +82,7 @@
                 user: 'ruddy+supertest@pendo.io',
                 account: 'bcr'
             });
-
-        redirectOnDrop(config);
-
         const host = 'pendo-dev-static.storage.googleapis.com';
-
-        if (config['pendo-designer']) {
-            config.token = JSON.parse(atob(decodeURIComponent(config['pendo-designer'])));
-        }
-
-        console.log({
-            ...config,
-            host
-        });
 
         (function(apiKey) {
             (function(p,e,n,d,o) {
@@ -107,7 +95,7 @@
             })(window,document,'script','pendo');
 
             pendo.initialize({
-                apiKey: apiKey,
+                // apiKey: apiKey,
                 visitor: {
                     id: config.user
                 },
@@ -116,43 +104,6 @@
                 }
             });
         })('4e3f2171-2dcd-4070-7684-e75ed44ed667');
-
-        function redirectOnDrop(config) {
-            if(!config.hasOwnProperty('drop')) {
-                return;
-            }
-
-            const params=JSON.parse(JSON.stringify(config));
-            delete params['pendo-designer'];
-            delete params.drop;
-
-            if(params.user === 'ruddy+pendo@pendo.io') {
-                delete params.user;
-            }
-
-            if(params.account === 'bcr') {
-                delete params.account;
-            }
-
-            if(params.app === 'legacyApp') {
-                delete params.app;
-            }
-
-            const query = Object.entries(params)
-                .reduce((qs,[key,value]) => {
-                    if(!qs) {
-                        qs='?';
-                    } else {
-                        qs+='&';
-                    }
-
-                    qs+=[key,value].join('=');
-
-                    return qs;
-                },'');
-
-            window.location = window.location.origin + query;
-        }
     </script>
 </body>
 
